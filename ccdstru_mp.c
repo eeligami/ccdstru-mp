@@ -1,9 +1,11 @@
 #include <stdio.h>
 #include <stdbool.h>
 
+#include "ccdstru_mp.h"
+
 int main()
 {
-  int board[3][3];
+  int board[GRID_SIZE][GRID_SIZE];
   
   return 0;
 }
