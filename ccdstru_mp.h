@@ -14,9 +14,18 @@
  */
 
 typedef struct{
-  char board[3][3];
-  int K[3][3]; //1 or 0, tracks the squares that was touched during the current turn 
-  int D[3][3]; //1 or 0, tracks the squares that have already "expanded" or exploded
+  int R[GRID_SIZE][GRID_SIZE];
+  int B[GRID_SIZE][GRID_SIZE];
+  int S[GRID_SIZE][GRID_SIZE];
+  int T[GRID_SIZE][GRID_SIZE];
+/*
+R = Tracks all the grid coordinates currently owned by Player R
+B = Tracks all the grid coordinates currently owned by Player B
+S = Temporary tracking set used during a players turn
+T = Tracks the spaces that have already triggered the "expend" function
+
+
+*/
 
   int good;
   int go;
@@ -24,3 +33,7 @@ typedef struct{
   int over;
   int val;
 }GameState;
+
+//Function Prototypes
+void InitGame(GameState *state);
+void RemovePos(GameState *state, int r, int c);
