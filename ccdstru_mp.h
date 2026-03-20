@@ -23,7 +23,7 @@ typedef struct{
   bool start;
   bool over;
   bool found;
-  bool val;
+  int val;
 } GameState;
 
 //Function Prototypes
