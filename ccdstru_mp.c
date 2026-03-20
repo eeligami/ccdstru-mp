@@ -6,11 +6,11 @@
 //System Intialization
 void InitGame(GameState *state)
 {
-  state->good = 0;
-  state->go = 1;
-  state->start = 1;
-  state->found = 0;
-  state->over = 0;
+  state->good = false;
+  state->go = true;
+  state->start = true;
+  state->found = false;
+  state->over = false;
   state->val = 0;
 
   int i;
