@@ -13,26 +13,22 @@
  * int GameOver(); // boolean function
  */
 
+typedef struct
+{
+  bool good;
+  bool go;
+  bool start;
+  bool over;
+  bool found;
+  bool val;
+} SystemVar;
+
 typedef struct{
-  int R[GRID_SIZE][GRID_SIZE];
-  int B[GRID_SIZE][GRID_SIZE];
-  int S[GRID_SIZE][GRID_SIZE];
-  int T[GRID_SIZE][GRID_SIZE];
-/*
-R = Tracks all the grid coordinates currently owned by Player R
-B = Tracks all the grid coordinates currently owned by Player B
-S = Temporary tracking set used during a players turn
-T = Tracks the spaces that have already triggered the "expend" function
-
-
-*/
-
-  int good;
-  int go;
-  int found;
-  int over;
-  int val;
-}GameState;
+  int R[GRID_SIZE][GRID_SIZE]; // Tracks all the grid coordinates currently owned by Player R
+  int B[GRID_SIZE][GRID_SIZE]; // Tracks all the grid coordinates currently owned by Player B
+  int S[GRID_SIZE][GRID_SIZE]; // Temporary tracking set used during a players turn
+  int T[GRID_SIZE][GRID_SIZE]; // Tracks the spaces that have already triggered the "expend" function
+} GameState;
 
 //Function Prototypes
 void InitGame(GameState *state);
