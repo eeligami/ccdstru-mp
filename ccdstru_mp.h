@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-
 #define MAX_TURNS 20
 #define GRID_SIZE 3
 
