@@ -1,3 +1,10 @@
+/*
+ * Machine Project for Discrete Structures (CCDSTRU - S12)
+ * Contributor 1: Mack Gabriel Baldado
+ * Contributor 2: Kyle Xavier Marquez
+ * Contributor 3: Keene Darshan Panganiban
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 
