@@ -124,6 +124,11 @@ void RemovePos(GameState *state, int r, int c)
   
 }
 
+void Replace(GameState *state, int r, int c)
+{
+  
+}
+
 void Expand(GameState *state, int a, int b)
 {
   int ur = a - 1,   uc = b;
