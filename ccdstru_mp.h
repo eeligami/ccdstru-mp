@@ -26,6 +26,7 @@ typedef struct{
 //Function Prototypes
 void InitGame(GameState *state);
 void RemovePos(GameState *state, int r, int c);
+void Replace(GameState *state, int r, int c);
 void CheckGameOver(GameState *state);
 void Update(GameState *state, int r, int c);
 void Expand(GameState *state, int a, int b);
