@@ -135,15 +135,15 @@ void Expand(GameState *state, int a, int b)
 
   if(state->go)
   {
-    Update(state, ur, uc);
+    Replace(state, ur, uc);
   }
   else
   {
-    Update(state, dr, dc);
+    Replace(state, dr, dc);
   }
 
-  Update(state, kr, kc);
-  Update(state, rr, rc);
+  Replace(state, kr, kc);
+  Replace(state, rr, rc);
 }
 
 void Update(GameState *state, int r, int c)
