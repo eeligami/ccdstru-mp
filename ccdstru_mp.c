@@ -10,7 +10,43 @@
 
 #include "ccdstru_mp.h"
 
-//System Intialization
+int main()
+{
+  GameState game;
+  InitGame(&game);
+
+  printf("Game Started!\n");
+  printf("Max Turns: %d\n\n", MAX_TURNS);
+
+  while (!game.over)
+    {
+      int r, c;
+      int currentTurn = game.val + 1;
+
+      printf("^-^-^ Turn %d / %d ^-^-^\n", currentTurn, MAX_TURNS);
+
+      if (game.go)
+      {
+        printf("Player R's move.\n");
+      }
+      else
+      {
+        printf("Player B's move.\n");
+      }
+
+      printf("Enter row and column (example: 1 1)");
+
+      scanf("%d %d", &r, &c);
+
+      NextPlayerMove(&game, r, c);
+
+      printf("\n");
+
+      
+  
+  return 0;
+}
+
 void InitGame(GameState *state)
 {
   state->good = false;
@@ -90,7 +126,24 @@ void RemovePos(GameState *state, int r, int c)
 
 void Expand(GameState *state, int a, int b)
 {
+  int ur = a - 1,   uc = b;
+  int dr = a + 1,   dc = b;
+  int kr = a,       kc = b - 1;
+  int rr = a,       rc = b + 1;
 
+  RemovePos(state, a, b);
+
+  if(state->go)
+  {
+    Update(state, ur, uc);
+  }
+  else
+  {
+    Update(state, dr, dc);
+  }
+
+  Update(state, kr, kc);
+  Update(state, rr, rc);
 }
 
 void Update(GameState *state, int r, int c)
@@ -167,43 +220,4 @@ void NextPlayerMove(GameState *state, int r, int c)
   }
 
   CheckGameOver(state);
-}
-
-
-
-int main()
-{
-  GameState game;
-  InitGame(&game);
-
-  printf("Game Started!\n");
-  printf("Max Turns: %d\n\n", MAX_TURNS);
-
-  while (!game.over)
-    {
-      int r, c;
-      int currentTurn = game.val + 1;
-
-      printf("^-^-^ Turn %d / %d ^-^-^\n", currentTurn, MAX_TURNS);
-
-      if (game.go)
-      {
-        printf("Player R's move.\n");
-      }
-      else
-      {
-        printf("Player B's move.\n");
-      }
-
-      printf("Enter row and column (example: 1 1)");
-
-      scanf("%d %d", &r, &c);
-
-      NextPlayerMove(&game, r, c);
-
-      printf("\n");
-
-      
-  
-  return 0;
 }
