@@ -126,7 +126,59 @@ void RemovePos(GameState *state, int r, int c)
 
 void Replace(GameState *state, int r, int c)
 {
-  
+  if (r < 0 || r >= GRID_SIZE || c < 0 || C >= GRID_SIZE)
+  {
+    return;
+  }
+
+  state->found = false;
+
+  if (state->go)
+  {
+    if (state->B[r][c] == 1)
+    {
+      state->B[r][c] == 0;
+      state->found = true;
+    }
+    else if (state->R[r][c] == 1)
+    {
+      state->found = true;
+    }
+    else if (state->R[r][c] == 0)
+    {  
+      state->R[r][c] == 1;
+    }
+  }
+  else
+  {
+    if (state->R[r][c] == 1)
+    {
+      state->R[r][c] == 0;
+      state->found = true;
+    }
+    else if (state->B[r][c] == 1)
+    {
+      state->found = true;
+    }
+    else if (state->B[r][c] == 0)
+    {
+      state->B[r][c] = 1;
+    }
+
+    
+  if (state->found)
+  {
+    if (state->S[r][c] == 1)
+    {
+      state->S[r][c] == 1;
+      state->found = false;
+    }
+    else if (state->S[r][c] == 1 && state->T[r][c] == 0)
+    {
+      state->T[r][c] == 1;
+      Expand(state, r, c);
+    }
+  }
 }
 
 void Expand(GameState *state, int a, int b)
