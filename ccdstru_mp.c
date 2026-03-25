@@ -41,7 +41,7 @@ int main()
       NextPlayerMove(&game, r, c);
 
       printf("\n");
-
+    }
       
   
   return 0;
