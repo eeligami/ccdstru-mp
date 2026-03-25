@@ -73,12 +73,11 @@ void CheckGameOver(GameState *state)
   int countR = 0;
   int countB = 0;
   int countF = 0;
-  int i;
-  int j;
+  int i, j;
 
   for (i = 0; i < GRID_SIZE; i++)
     {
-      for (i = 0; i < GRID_SIZE; i++)
+      for (j = 0; i < GRID_SIZE; j++)
       {
         if (state->R[i][j])
         {
@@ -95,9 +94,9 @@ void CheckGameOver(GameState *state)
       }
     }
 
-  if (countF = 0 || state->val >= 20 || (!state->start && ((countR > 0 && countB == 0) || (countR == 0 && countB > 0))))
+  if (countF == 0 || state->val >= 20 || (!state->start && ((countR > 0 && countB == 0) || (countR == 0 && countB > 0))))
   {
-    start->over = 1;
+    state->over = 1;
   }  
 }
 
@@ -121,12 +120,10 @@ void RemovePos(GameState *state, int r, int c)
     state->T[r][c] = 0;
     
   }
-  
-}
 
 void Replace(GameState *state, int r, int c)
 {
-  if (r < 0 || r >= GRID_SIZE || c < 0 || C >= GRID_SIZE)
+  if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
   {
     return;
   }
@@ -180,6 +177,7 @@ void Replace(GameState *state, int r, int c)
     }
   }
 }
+}
 
 void Expand(GameState *state, int a, int b)
 {
@@ -221,7 +219,7 @@ void Update(GameState *state, int r, int c)
 
 void NextPlayerMove(GameState *state, int r, int c)
 {
-  if (r < o || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
+  if (r < c || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
   {
     return;
   }
