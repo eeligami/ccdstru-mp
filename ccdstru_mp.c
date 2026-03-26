@@ -43,8 +43,37 @@ int main()
       printf("\n");
     }
       
-  
+  GameOver(&game);
   return 0;
+}
+
+void PrintBoard(GameState *state)
+{
+  int i;
+  int j;
+
+  printf("    0   1   2\n");
+  printf("    +---+---+---+\n");
+
+  for (i = 0; i < GRID_SIZE; i++)
+    {
+      printf("%d |", i);
+      for (j = 0; j < GRID_SIZE; j++)
+        {
+          if(state->R[i][j])
+          {
+            printf(" R |"); 
+          }
+          else if(state->B[i][j])
+          {
+            printf(" B |");
+          }
+          else{
+            printf("   |");
+          }
+        }
+      printf("\n  +---+---+---+\n");
+    }  
 }
 
 void InitGame(GameState *state)
