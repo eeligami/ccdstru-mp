@@ -134,7 +134,7 @@ void Replace(GameState *state, int r, int c)
   {
     if (state->B[r][c] == 1)
     {
-      state->B[r][c] == 0;
+      state->B[r][c] = 0;
       state->found = true;
     }
     else if (state->R[r][c] == 1)
@@ -150,7 +150,7 @@ void Replace(GameState *state, int r, int c)
   {
     if (state->R[r][c] == 1)
     {
-      state->R[r][c] == 0;
+      state->R[r][c] = 0;
       state->found = true;
     }
     else if (state->B[r][c] == 1)
