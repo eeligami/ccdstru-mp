@@ -305,3 +305,8 @@ void NextPlayerMove(GameState *state, int r, int c)
 
   CheckGameOver(state);
 }
+
+void GameOver(GameState *state)
+{
+  
+}
