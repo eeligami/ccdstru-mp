@@ -61,7 +61,7 @@ void PrintBoard(GameState *state)
   int j;
 
   printf("    0   1   2\n");
-  printf("    +---+---+---+\n");
+  printf("  +---+---+---+\n");
 
   for (i = 0; i < GRID_SIZE; i++)
     {
