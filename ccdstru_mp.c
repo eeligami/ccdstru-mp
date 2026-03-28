@@ -247,15 +247,6 @@ void NextPlayerMove(GameState *state, int r, int c)
   int countR = 0, countB = 0;
   int i, j;
 
-  for (i = 0; i < GRID_SIZE; i++)
-    {
-      for (j = 0; j < GRID_SIZE; j++)
-        {
-          state->S[i][j] = 0;
-          state->T[i][j] = 0;
-        }
-    }
-
   if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
   {
     if (state->over == 0 && state->start == 1)
