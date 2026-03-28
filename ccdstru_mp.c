@@ -137,7 +137,7 @@ void RemovePos(GameState *state, int r, int c)
      {
        state->R[c][c] = 0;
      }
-     else if (state->go == 00)
+     else if (state->go == 0)
      {
        state->B[r][c] = 0;
      }
@@ -242,66 +242,74 @@ void Update(GameState *state, int r, int c)
 
 void NextPlayerMove(GameState *state, int r, int c)
 {
+  int countR;
+  int countB;
+  int i;
+  int j;
+
   if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
   {
-    if (!state->over && state->start && state->go)
+    if (state->over == 0 && state->start == 1)
     {
-      state->R[r][c] = 1;
-      state->S[r][c] = 1;
-      state->good = 1;
+      if (state->go == 1)
+      {
+        state->R[r][c] = 1;
+        state->S[r][c] = 1;
+        state->good = true;
+      }
+      else if (state->go == 0)
+      {
+        state->B[r][c] = 1;
+        state->S[r][c] = 1;
+        state->good = true;
+      }
     }
-    else if (!state->over && state->start && !state->go) 
+    else if (state->over == 0 && state->start == 0)
     {
-      state->B[r][c] = 1;
-      state->S[r][c] = 1;
-      state->good = 1;
-    }
-    else if(!state->over && !state->start && ((state->go && state->R[r][c]) || (!state->go && state->B[r][c])))
-    {
-      Update(state, r, c);
-      state->good = 1;
+      if ((state->go == 1 && state->R[r][c] == 1) || (state->go == 0 && state->B[r][c] == 1))
+      {
+        Update(state, r, c);
+        state->good = true;
+      }
     }
 
-    int countR = 0;
-    int countB = 0;
-    int i;
-    int j;
+    countR = 0;
+    countB = 0;
     
     for (i = 0; i < 3; i++)
     {
       for (j = 0; j < 3; j++)
       {
-        if (state->R[i][j])
+        if (state->R[i][j] == 1)
         {
-          countR++;
+          countR = countR + 1;
         }
-        if (state->B[i][j])
+        if (state->B[i][j] == 1)
         {
-          countB++;
+          countB = countB + 1;
         }
       }
     }
 
-    if (state->start && countR == 1 && countB == 1)
+    if (state->start == 1 && countR == 1 && countB == 1)
     {
-      state->start = 0;
+      state->start = false;
     }
 
-    if (!state->over && state->good)
+    if (state->over == 0 && state->good == true)
     {
-      state->good = !state->good;
-      state->go = !state->go;
-      state->val++;
-    }
-
-    // Clear S and T tracking arrays at the end of the turn
-    for (i = 0; i < 3; i++)
-    {
-      for (j = 0; j < 3; j++)
+      state->good = false;
+      
+      if (state->go == 1)
       {
-        state->S[i][j] = 0;
-        state->T[i][j] = 0;
+        state->go = 0;
       }
+      else if (state->go == 0)
+      {
+        state->go = 1;
+      }
+      
+      state->val = state->val + 1;
     }
 
     CheckGameOver(state);
