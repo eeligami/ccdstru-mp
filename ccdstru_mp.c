@@ -1,5 +1,6 @@
 /*
- * Machine Project for Discrete Structures (CCDSTRU - S12)
+ * MACHINE PROJECT FINAL OUTPUT
+ * CCDSTRU (S12) - Group 7
  * Contributor 1: Mack Gabriel Baldado
  * Contributor 2: Kyle Xavier Marquez
  * Contributor 3: Keene Darshan Panganiban
@@ -23,6 +24,8 @@ int main()
       int r, c;
       int currentTurn = game.val + 1;
 
+      PrintBoard(&game);
+
       printf("^-^-^ Turn %d / %d ^-^-^\n", currentTurn, MAX_TURNS);
 
       if (game.go)
@@ -34,10 +37,11 @@ int main()
         printf("Player B's move.\n");
       }
 
-      printf("Enter row and column (example: 1 1)");
+      printf("Enter row and column (example: 1 1): ");
 
       if (scanf("%d %d", &r, &c) != 2)
       {
+        printf("Invalid input. Please enter two numbers.\n");
         while (getchar() != '\n');
       }
       else
@@ -45,10 +49,6 @@ int main()
         NextPlayerMove(&game, r, c);
         printf("\n");
       }
-
-      NextPlayerMove(&game, r, c);
-
-      printf("\n");
     }
       
   GameOver(&game);
@@ -137,18 +137,14 @@ void CheckGameOver(GameState *state)
   }  
 }
 
-void RemovePos(GameState *state, int r, int c)
+void RemovePos(GameState *state, int r, int c, int player)
 {
-  if (r < 0 && r >= GRID_SIZE && c >= 0 && c < GRID_SIZE)
+  if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
    {
-     if (state->go == 1)
-     {
+     if (player == 1)
        state->R[r][c] = 0;
-     }
-     else if (state->go == 0)
-     {
+     else
        state->B[r][c] = 0;
-     }
      
      state->S[r][c] = 0;
      state->T[r][c] = 0;
@@ -212,21 +208,19 @@ void Replace(GameState *state, int r, int c)
 
 void Expand(GameState *state, int a, int b)
 {
+  int player = state->go ? 1 : 0;
+
   int ur = a - 1,   uc = b;
   int dr = a + 1,   dc = b;
   int kr = a,       kc = b - 1;
   int rr = a,       rc = b + 1;
 
-  RemovePos(state, a, b);
+  RemovePos(state, a, b, player);
 
   if(state->go)
-  {
     Replace(state, ur, uc);
-  }
   else
-  {
     Replace(state, dr, dc);
-  }
 
   Replace(state, kr, kc);
   Replace(state, rr, rc);
@@ -234,7 +228,7 @@ void Expand(GameState *state, int a, int b)
 
 void Update(GameState *state, int r, int c)
 {
-  state->good = 0;
+  state->good = false;
 
   if (!state->S[r][c])
   {
@@ -250,77 +244,63 @@ void Update(GameState *state, int r, int c)
 
 void NextPlayerMove(GameState *state, int r, int c)
 {
-  int countR;
-  int countB;
-  int i;
-  int j;
+  int countR = 0, countB = 0;
+  int i, j;
 
   if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
   {
     if (state->over == 0 && state->start == 1)
     {
-      if (state->go == 1)
+      if (state->R[r][c] || state->B[r][c])
       {
-        state->R[r][c] = 1;
-        state->S[r][c] = 1;
-        state->good = true;
+        printf("Cell already occupied. Try again.\n");
       }
-      else if (state->go == 0)
+      else
       {
-        state->B[r][c] = 1;
+        if (state->go)
+          state->R[r][c] = 1;
+        else
+          state->B[r][c] = 1;
+
         state->S[r][c] = 1;
         state->good = true;
       }
     }
     else if (state->over == 0 && state->start == 0)
     {
-      if ((state->go == 1 && state->R[r][c] == 1) || (state->go == 0 && state->B[r][c] == 1))
+      if ((state->go && state->R[r][c]) || (!state->go && state->B[r][c]))
       {
         Update(state, r, c);
         state->good = true;
       }
-    }
-
-    countR = 0;
-    countB = 0;
-    
-    for (i = 0; i < 3; i++)
-    {
-      for (j = 0; j < 3; j++)
+      else
       {
-        if (state->R[i][j] == 1)
-        {
-          countR = countR + 1;
-        }
-        if (state->B[i][j] == 1)
-        {
-          countB = countB + 1;
-        }
+        printf("Invalid move. Select one of your own pieces.\n");
       }
     }
 
-    if (state->start == 1 && countR == 1 && countB == 1)
-    {
-      state->start = false;
-    }
+    for (i = 0; i < GRID_SIZE; i++)
+      for (j = 0; j < GRID_SIZE; j++)
+      {
+        if (state->R[i][j]) countR++;
+        if (state->B[i][j]) countB++;
+      }
 
-    if (state->over == 0 && state->good == true)
+    if (state->start && countR == 1 && countB == 1)
+      state->start = false;
+
+    if (!state->over && state->good)
     {
       state->good = false;
-      
-      if (state->go == 1)
-      {
-        state->go = 0;
-      }
-      else if (state->go == 0)
-      {
-        state->go = 1;
-      }
-      
-      state->val = state->val + 1;
+      state->go   = !state->go;
+      state->val++;
     }
 
     CheckGameOver(state);
+  }
+  else
+  {
+    printf("Invalid position. Row and column must be between 0 and 2.\n");
   }
 }
 
