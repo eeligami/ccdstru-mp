@@ -106,7 +106,7 @@ void CheckGameOver(GameState *state)
 
   for (i = 0; i < GRID_SIZE; i++)
     {
-      for (j = 0; i < GRID_SIZE; j++)
+      for (j = 0; j < GRID_SIZE; j++)
       {
         if (state->R[i][j])
         {
@@ -123,7 +123,7 @@ void CheckGameOver(GameState *state)
       }
     }
 
-  if (countF == 0 || state->val >= 20 || (!state->start && ((countR > 0 && countB == 0) || (countR == 0 && countB > 0))))
+  if (countF == 3 || state->val >= 20 || (!state->start && ((countR > 0 && countB == 0) || (countR == 0 && countB > 0))))
   {
     state->over = 1;
   }  
@@ -131,11 +131,11 @@ void CheckGameOver(GameState *state)
 
 void RemovePos(GameState *state, int r, int c)
 {
-  if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
+  if (r < 0 && r >= GRID_SIZE && c >= 0 && c < GRID_SIZE)
    {
      if (state->go == 1)
      {
-       state->R[c][c] = 0;
+       state->R[r][c] = 0;
      }
      else if (state->go == 0)
      {
@@ -318,5 +318,21 @@ void NextPlayerMove(GameState *state, int r, int c)
 
 void GameOver(GameState *state)
 {
-  
+  int countR = 0, countB = 0;
+  int i, j;
+
+  for (i = 0; i < GRID_SIZE; i++)
+    for (j = 0; j < GRID_SIZE; j++)
+      {
+        if (state->R[i][j]) countR++;
+        if (state->B[i][j]) countB++;
+      }
+
+  PrintBoard(state);
+  if (countR > countB)
+    printf("Result: R wins\n");
+  else if (countR < countB)
+    printf("Result: B wins\n");
+  else
+    printf("Result: draw\n");
 }
