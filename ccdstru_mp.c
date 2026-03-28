@@ -131,24 +131,21 @@ void CheckGameOver(GameState *state)
 
 void RemovePos(GameState *state, int r, int c)
 {
-    if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
-    {
-    return; // PLS CHANGE LOGIC TO NOT INCLUDE RETURN - RETURN ON VOID NOT ALLOWED
-    }
-  
-    if (state->go)
-    {
-      state->R[r][c] = 0;
-    }
-    else
-    {
-      state->B[r][c] = 0;
-    }
-
-    state->S[r][c] = 0;
-    state->T[r][c] = 0;
-    
-  }
+  if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
+   {
+     if (state->go == 1)
+     {
+       state->R[c][c] = 0;
+     }
+     else if (state->go == 00)
+     {
+       state->B[r][c] = 0;
+     }
+     
+     state->S[r][c] = 0;
+     state->T[r][c] = 0;
+   }  
+}
 
 void Replace(GameState *state, int r, int c)
 {
