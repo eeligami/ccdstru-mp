@@ -36,7 +36,15 @@ int main()
 
       printf("Enter row and column (example: 1 1)");
 
-      scanf("%d %d", &r, &c);
+      if (scanf("%d %d", &r, &c) != 2)
+      {
+        while (getchar() != '\n');
+      }
+      else
+      {
+        NextPlayerMove(&game, r, c);
+        printf("\n");
+      }
 
       NextPlayerMove(&game, r, c);
 
