@@ -149,60 +149,57 @@ void RemovePos(GameState *state, int r, int c)
 
 void Replace(GameState *state, int r, int c)
 {
-  if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
+  if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
   {
-    return; // PLS CHANGE LOGIC TO NOT INCLUDE RETURN - RETURN ON VOID NOT ALLOWED
-  }
+    state->found = 0;
 
-  state->found = false;
+    if (state->go)
+    {
+      if (state->B[r][c] == 1)
+      {
+        state->B[r][c] = 0; 
+        state->found = 1;
+      }
+      else if (state->R[r][c] == 1)
+      {
+        state->found = 1;
+      }
+      else if (state->R[r][c] == 0)
+      {  
+        state->R[r][c] = 1; 
+      }
+    }
+    else
+    {
+      if (state->R[r][c] == 1)
+      {
+        state->R[r][c] = 0; 
+        state->found = 1;
+      }
+      else if (state->B[r][c] == 1)
+      {
+        state->found = 1;
+      }
+      else if (state->B[r][c] == 0)
+      {
+        state->B[r][c] = 1;
+      }
+    } 
 
-  if (state->go)
-  {
-    if (state->B[r][c] == 1)
+    if (state->found)
     {
-      state->B[r][c] = 0;
-      state->found = true;
-    }
-    else if (state->R[r][c] == 1)
-    {
-      state->found = true;
-    }
-    else if (state->R[r][c] == 0)
-    {  
-      state->R[r][c] == 1;
-    }
-  }
-  else
-  {
-    if (state->R[r][c] == 1)
-    {
-      state->R[r][c] = 0;
-      state->found = true;
-    }
-    else if (state->B[r][c] == 1)
-    {
-      state->found = true;
-    }
-    else if (state->B[r][c] == 0)
-    {
-      state->B[r][c] = 1;
-    }
-
-    
-  if (state->found)
-  {
-    if (state->S[r][c] == 1)
-    {
-      state->S[r][c] == 1;
-      state->found = false;
-    }
-    else if (state->S[r][c] == 1 && state->T[r][c] == 0)
-    {
-      state->T[r][c] == 1;
-      Expand(state, r, c);
+      if (state->S[r][c] == 0) 
+      {
+        state->S[r][c] = 1; 
+        state->found = 0;
+      }
+      else if (state->S[r][c] == 1 && state->T[r][c] == 0)
+      {
+        state->T[r][c] = 1; 
+        Expand(state, r, c);
+      }
     }
   }
-}
 }
 
 void Expand(GameState *state, int a, int b)
@@ -245,62 +242,70 @@ void Update(GameState *state, int r, int c)
 
 void NextPlayerMove(GameState *state, int r, int c)
 {
-  if (r < c || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
+  if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
   {
-    return; // PLS CHANGE LOGIC TO NOT INCLUDE RETURN - RETURN ON VOID NOT ALLOWED
-  }
-
-  if (!state->over && state->start && state->go)
-  {
-    state->R[r][c] = 1;
-    state->S[r][c] = 1;
-    state->good = 1;
-  }
-  else if (!state->over && state->start && !state->go) 
-  {
-    state->B[r][c] = 1;
-    state->S[r][c] = 1;
-    state->good = 1;
-  }
-  else if(!state->over && !state->start && ((state->go && state->R[r][c]) || (!state->go && state->B[r][c])))
-  {
-    Update(state, r, c);
-    state->good = 1;
-  }
-
-  int countR = 0;
-  int countB = 0;
-  int i;
-  int j;
-  
-  for (i = 0; i < 3; i++)
-  {
-    for (j = 0; j < 3; j++)
+    if (!state->over && state->start && state->go)
     {
-      if (state->R[i][j])
+      state->R[r][c] = 1;
+      state->S[r][c] = 1;
+      state->good = 1;
+    }
+    else if (!state->over && state->start && !state->go) 
+    {
+      state->B[r][c] = 1;
+      state->S[r][c] = 1;
+      state->good = 1;
+    }
+    else if(!state->over && !state->start && ((state->go && state->R[r][c]) || (!state->go && state->B[r][c])))
+    {
+      Update(state, r, c);
+      state->good = 1;
+    }
+
+    int countR = 0;
+    int countB = 0;
+    int i;
+    int j;
+    
+    for (i = 0; i < 3; i++)
+    {
+      for (j = 0; j < 3; j++)
       {
-        countR++;
-      }
-      if (state->B[i][j])
-      {
-        countB++;
+        if (state->R[i][j])
+        {
+          countR++;
+        }
+        if (state->B[i][j])
+        {
+          countB++;
+        }
       }
     }
-  }
 
-  if (state->start && countR == 1 && countB == 1)
-  {
-    state->start = 0;
-  }
+    if (state->start && countR == 1 && countB == 1)
+    {
+      state->start = 0;
+    }
 
-  if (!state->over && state->good)
-  {
-    state->good = !state->good;
-    state->go = !state->go;
-    state->val++;
-  }
+    if (!state->over && state->good)
+    {
+      state->good = !state->good;
+      state->go = !state->go;
+      state->val++;
+    }
 
-  CheckGameOver(state);
+    // Clear S and T tracking arrays at the end of the turn
+    for (i = 0; i < 3; i++)
+    {
+      for (j = 0; j < 3; j++)
+      {
+        state->S[i][j] = 0;
+        state->T[i][j] = 0;
+      }
+    }
+
+    CheckGameOver(state);
+  }
 }
 
 void GameOver(GameState *state)
