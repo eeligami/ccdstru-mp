@@ -1,9 +1,9 @@
 /*
  * MACHINE PROJECT FINAL OUTPUT
  * CCDSTRU (S12) - Group 7
- * Contributor 1: Mack Gabriel Baldado
- * Contributor 2: Kyle Xavier Marquez
- * Contributor 3: Keene Darshan Panganiban
+ * Contributor 1: Mack Gabriel Baldado (eeligami)
+ * Contributor 2: Kyle Xavier Marquez (XavMarq)
+ * Contributor 3: Keene Darshan Panganiban (ZeroPR1)
  */
 
 #include <stdio.h>
