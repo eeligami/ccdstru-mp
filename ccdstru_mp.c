@@ -133,7 +133,7 @@ void RemovePos(GameState *state, int r, int c)
 {
     if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
     {
-    return;
+    return; // PLS CHANGE LOGIC TO NOT INCLUDE RETURN - RETURN ON VOID NOT ALLOWED
     }
   
     if (state->go)
@@ -154,7 +154,7 @@ void Replace(GameState *state, int r, int c)
 {
   if (r < 0 || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
   {
-    return;
+    return; // PLS CHANGE LOGIC TO NOT INCLUDE RETURN - RETURN ON VOID NOT ALLOWED
   }
 
   state->found = false;
@@ -250,7 +250,7 @@ void NextPlayerMove(GameState *state, int r, int c)
 {
   if (r < c || r >= GRID_SIZE || c < 0 || c >= GRID_SIZE)
   {
-    return;
+    return; // PLS CHANGE LOGIC TO NOT INCLUDE RETURN - RETURN ON VOID NOT ALLOWED
   }
 
   if (!state->over && state->start && state->go)
