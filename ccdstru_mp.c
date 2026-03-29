@@ -97,10 +97,10 @@ void InitGame(GameState *state)
   int j;
   for (i = 0; i < GRID_SIZE; i++){
     for (j = 0; j < GRID_SIZE; j++){
-      state->R[i][j] = 0; //R = empty
-      state->B[i][j] = 0; //B = empty
-      state->S[i][j] = 0; //S = empty
-      state->T[i][j] = 0; //T = empty
+      state->R[i][j] = 0;
+      state->B[i][j] = 0;
+      state->S[i][j] = 0;
+      state->T[i][j] = 0; 
     }
   }
 }
