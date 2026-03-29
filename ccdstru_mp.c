@@ -137,11 +137,11 @@ void CheckGameOver(GameState *state)
   }  
 }
 
-void RemovePos(GameState *state, int r, int c, int player)
+void RemovePos(GameState *state, int r, int c)
 {
   if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
    {
-     if (player == 1)
+     if (state->go)
        state->R[r][c] = 0;
      else
        state->B[r][c] = 0;
@@ -208,14 +208,12 @@ void Replace(GameState *state, int r, int c)
 
 void Expand(GameState *state, int a, int b)
 {
-  int player = state->go ? 1 : 0;
-
   int ur = a - 1,   uc = b;
   int dr = a + 1,   dc = b;
   int kr = a,       kc = b - 1;
   int rr = a,       rc = b + 1;
 
-  RemovePos(state, a, b, player);
+  RemovePos(state, a, b);
 
   if(state->go)
     Replace(state, ur, uc);
@@ -251,11 +249,7 @@ void NextPlayerMove(GameState *state, int r, int c)
   {
     if (state->over == 0 && state->start == 1)
     {
-      if (state->R[r][c] || state->B[r][c])
-      {
-        printf("Cell already occupied. Try again.\n");
-      }
-      else
+      if (!state->R[r][c] && !state->B[r][c])
       {
         if (state->go)
           state->R[r][c] = 1;
@@ -273,17 +267,15 @@ void NextPlayerMove(GameState *state, int r, int c)
         Update(state, r, c);
         state->good = true;
       }
-      else
-      {
-        printf("Invalid move. Select one of your own pieces.\n");
-      }
     }
 
     for (i = 0; i < GRID_SIZE; i++)
       for (j = 0; j < GRID_SIZE; j++)
       {
-        if (state->R[i][j]) countR++;
-        if (state->B[i][j]) countB++;
+        if (state->R[i][j])
+          countR++;
+        if (state->B[i][j])
+          countB++;
       }
 
     if (state->start && countR == 1 && countB == 1)
@@ -292,15 +284,11 @@ void NextPlayerMove(GameState *state, int r, int c)
     if (!state->over && state->good)
     {
       state->good = false;
-      state->go   = !state->go;
+      state->go = !state->go;
       state->val++;
     }
 
     CheckGameOver(state);
-  }
-  else
-  {
-    printf("Invalid position. Row and column must be between 0 and 2.\n");
   }
 }
 
