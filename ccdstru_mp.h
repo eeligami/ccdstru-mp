@@ -2,10 +2,10 @@
 #define GRID_SIZE 3
 
 typedef struct{
-  int R[GRID_SIZE][GRID_SIZE]; // Tracks all the grid coordinates currently owned by Player R
-  int B[GRID_SIZE][GRID_SIZE]; // Tracks all the grid coordinates currently owned by Player B
-  int S[GRID_SIZE][GRID_SIZE]; // Temporary tracking set used during a players turn
-  int T[GRID_SIZE][GRID_SIZE]; // Tracks the spaces that have already triggered the "expand" function
+  int R[GRID_SIZE][GRID_SIZE]; 
+  int B[GRID_SIZE][GRID_SIZE];
+  int S[GRID_SIZE][GRID_SIZE]; 
+  int T[GRID_SIZE][GRID_SIZE];
   bool good;
   bool go;
   bool start;
