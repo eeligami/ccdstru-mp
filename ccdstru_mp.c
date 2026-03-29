@@ -233,7 +233,8 @@ void Update(GameState *state, int r, int c)
     state->S[r][c] = 1;
     state->good = !state->good;
   }
-  else if (!state->good && state->S[r][c] && !state->T[r][c])
+  
+  if (!state->good && state->S[r][c] && !state->T[r][c])
   {
     state->T[r][c] = 1;
     Expand(state, r, c);
