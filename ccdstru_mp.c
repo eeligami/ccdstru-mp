@@ -97,10 +97,10 @@ void InitGame(GameState *state)
   int j;
   for (i = 0; i < GRID_SIZE; i++){
     for (j = 0; j < GRID_SIZE; j++){
-      state->R[i][j] = 0; //R = empty
-      state->B[i][j] = 0; //B = empty
-      state->S[i][j] = 0; //S = empty
-      state->T[i][j] = 0; //T = empty
+      state->R[i][j] = 0;
+      state->B[i][j] = 0;
+      state->S[i][j] = 0;
+      state->T[i][j] = 0;
     }
   }
 }
@@ -155,49 +155,51 @@ void Replace(GameState *state, int r, int c)
 {
   if (r >= 0 && r < GRID_SIZE && c >= 0 && c < GRID_SIZE)
   {
-    state->found = 0;
+    state->found = false; 
 
     if (state->go)
     {
-      if (state->B[r][c] == 1)
+      if (state->B[r][c])
       {
         state->B[r][c] = 0; 
-        state->found = 1;
+        state->found = true;
       }
-      else if (state->R[r][c] == 1)
-      {
-        state->found = 1;
-      }
-      else if (state->R[r][c] == 0)
+
+      if (state->R[r][c])
+        state->found = true;
+
+      if (!state->R[r][c])
       {  
         state->R[r][c] = 1; 
       }
     }
     else
     {
-      if (state->R[r][c] == 1)
+      if (state->R[r][c])
       {
         state->R[r][c] = 0; 
-        state->found = 1;
+        state->found = true;
       }
-      else if (state->B[r][c] == 1)
+
+      if (state->B[r][c])
       {
-        state->found = 1;
+        state->found = true;
       }
-      else if (state->B[r][c] == 0)
+
+      if (!state->B[r][c])
       {
         state->B[r][c] = 1;
       }
-    } 
+  } 
 
     if (state->found)
     {
-      if (state->S[r][c] == 0) 
+      if (!state->S[r][c]) 
       {
-        state->S[r][c] = 1; 
-        state->found = 0;
+        state->S[r][c] = 1;
+        state->found = false;
       }
-      else if (state->S[r][c] == 1 && state->T[r][c] == 0)
+      else if (state->S[r][c] && !state->T[r][c])
       {
         state->T[r][c] = 1; 
         Expand(state, r, c);
